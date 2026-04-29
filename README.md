@@ -101,7 +101,6 @@ src/
 
 ---
 
-
 ---
 
 **Développé avec ❤️ pour une gestion de stock simplifiée.**
