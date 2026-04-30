@@ -12,7 +12,7 @@ export default function Login() {
         setError('');
         setLoading(true);
         try {
-            const res = await axios.post("http://127.0.0.1:8000api/login",
+            const res = await axios.post("http://127.0.0.1:8000/api/login",
                 {
                     email,
                     password,
@@ -39,17 +39,31 @@ export default function Login() {
                 {error && (
                     <div className="mb-4 p-3 bg-red-500/20 text-red-400 px-4 py-2 rounded-lg text-sm font-medium">
                         {error}
-                    </div>)
-                }
+                    </div>
+                )}
                 <label className="text-gray-400 text-xs font-bold uppercase">Email</label>
-                <input type="email" placeholder="Votre email" value={email} onChange={(e) => setEmail(e.target.value)}
-                    className="w-full bg-gray-800 border border-gray-700 text-white rounded-xl px-4 py-3 text-sm mt-1 mb-4 focus:border-emerald-500" />
+                <input
+                    type="email"
+                    placeholder="Votre email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="w-full bg-gray-800 border border-gray-700 text-white rounded-xl px-4 py-3 text-sm mt-1 mb-4 focus:border-emerald-500"
+                />
                 <label className="text-gray-400 text-xs font-bold uppercase">Mot de passe</label>
-                <input type="password" placeholder=".........." value={password} onChange={(e) => setpassword(e.target.value)}
-                    className="w-full bg-gray-800 border border-gray-700 text-white rounded-xl px-4 py-3 text-sm mt-1 mb-4 focus:border-emerald-500" />
-                <button disabled={loading} onClick={handleLogin}
-                    className="w-full bg-emerald-600 hover:bg-emerald-500 disabled:opacity-50 transition  text-white rounded-xl px-4 py-3 text-sm font-medium mt-6">
-                    {loading ? "Connexion..." : "Se connecter"} </button>
+                <input
+                    type="password"
+                    placeholder=".........."
+                    value={password}
+                    onChange={(e) => setpassword(e.target.value)}
+                    className="w-full bg-gray-800 border border-gray-700 text-white rounded-xl px-4 py-3 text-sm mt-1 mb-4 focus:border-emerald-500"
+                />
+                <button
+                    disabled={loading}
+                    onClick={handleLogin}
+                    className="w-full bg-emerald-600 hover:bg-emerald-500 disabled:opacity-50 transition text-white rounded-xl px-4 py-3 text-sm font-medium mt-6"
+                >
+                    {loading ? "Connexion..." : "Se connecter"}
+                </button>
             </div>
 
         </div>
