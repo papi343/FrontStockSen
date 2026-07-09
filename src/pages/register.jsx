@@ -1,83 +1,169 @@
 import { useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 export default function Register() {
-    const [nom, setNom] = useState("");
-    const [prenom, setPrenom] = useState("");
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [role, setRole] = useState("");
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState("");
-    const navigate = useNavigate();
+  const [nom, setNom] = useState("");
+  const [prenom, setPrenom] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [role, setRole] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
 
-    const handleRegister = async () => {
-        setError("");
-        setLoading(true);
-        try {
-            const response = await axios.post("http://127.0.0.1:8000/api/register",
-                {
-                    nom,
-                    prenom,
-                    email,
-                    password,
-                    role,
-                }
-            );
-            localStorage.setItem("token", response.data.token);
-            localStorage.setItem("user", JSON.stringify(response.data.user));
-            navigate("/dashboard");
+  const handleRegister = async () => {
+    setError("");
+    setLoading(true);
+    try {
+      const response = await axios.post("http://127.0.0.1:8000/api/register", {
+        nom,
+        prenom,
+        email,
+        password,
+        role,
+      });
+      localStorage.setItem("token", response.data.token);
+      localStorage.setItem("user", JSON.stringify(response.data.user));
+      navigate("/dashboard");
+    } catch (e) {
+      setError(e.response?.data?.message || "Une erreur s'est produite");
+    } finally {
+      setLoading(false);
+    }
+  };
 
-        } catch (e) {
-            setError(e.response?.data?.message || "Une erreur s'est produite")
+  return (
+    <div className="min-h-screen bg-gray-950 text-gray-100 flex flex-col relative overflow-x-hidden">
+      {/* Background ambient glow */}
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full bg-emerald-500/10 blur-[120px] pointer-events-none" />
 
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-950">
-            <div className="bg-gray-900 border border-gray-800 rounded-2xl p-8 w-full max-w-md">
-                <h1 className="text-white text-2xl font-bold text-center mb-2">Inscription</h1>
-                <p className="text-gray-400 text-sm text-center mb-6">Connectz-vous a votre compte</p>
-                {error && (
-                    <div className="mb-4 p-3 bg-red-500/20 text-red-400 px-4 py-2 rounded-lg text-sm font-medium">
-                        {error}
-                    </div>
-                )}
-                <label className="text-gray-400 text-xs font-bold uppercase">Nom</label>
-                <input type="text" value={nom} onChange={(e) => setNom(e.target.value)} placeholder="Nom"
-                    className="w-full bg-gray-800 border border-gray-700 text-white rounded-xl px-4 py-3 text-sm mt-1 mb-4 focus:border-emerald-500" />
-                <label className="text-gray-400 text-xs font-bold uppercase">Prenom</label>
-                <input type="text" value={prenom} onChange={(e) => setPrenom(e.target.value)} placeholder="Prenom"
-                    className="w-full bg-gray-800 border border-gray-700 text-white rounded-xl px-4 py-3 text-sm mt-1 mb-4 focus:border-emerald-500" />
-                <label className="text-gray-400 text-xs font-bold uppercase">Email</label>
-                <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email"
-                    className="w-full bg-gray-800 border border-gray-700 text-white rounded-xl px-4 py-3 text-sm mt-1 mb-4 focus:border-emerald-500" />
-                <label className="text-gray-400 text-xs font-bold uppercase">Mot de passe</label>
-                <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="......."
-                    className="w-full bg-gray-800 border border-gray-700 text-white rounded-xl px-4 py-3 text-sm mt-1 mb-4 focus:border-emerald-500" />
-                <label className="text-gray-400 text-xs font-bold uppercase">Role</label>
-                <select value={role} onChange={(e) => setRole(e.target.value)}
-                    className="w-full bg-gray-800 border border-gray-700 text-white rounded-xl px-4 py-3 text-sm mt-1 mb-4 focus:border-emerald-500"
-                >
-                    <option value="">Selectionner un role</option>
-                    <option value="admin">Admin</option>
-                    <option value="fournisseur">Fournisseur</option>
-                    <option value="gestionnaire">Gestionnaire</option>
-                </select>
-                <button onClick={handleRegister} disabled={loading}
-                    className="w-full bg-emerald-600 hover:bg-emerald-500 disabled:opacity-50 transition  text-white rounded-xl px-4 py-3 text-sm font-medium mt-6">
-                    {loading ? "Inscription..." : "S'inscrire"}
-                </button>
-                <p className="text-gray-400 text-xs text-center mt-4">
-                    Vous avez deja un compte ?
-                    <Link to="/login" className="text-emerald-400 hover:text-emerald-300">Connectez-vous</Link>
-                </p>
+      {/* Header/Navbar */}
+      <header className="w-full border-b border-gray-800/80 bg-gray-950/80 backdrop-blur-md z-10">
+        <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+          <Link to="/" className="flex items-center gap-3 group">
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-500 to-teal-400 flex items-center justify-center font-bold text-black text-xl shadow-lg shadow-emerald-500/20 group-hover:scale-105 transition-transform">
+              S
             </div>
+            <span className="text-xl font-bold bg-gradient-to-r from-emerald-400 to-teal-300 bg-clip-text text-transparent tracking-wide">
+              StockSEN
+            </span>
+          </Link>
+          <div className="flex items-center gap-4">
+            <span className="text-sm text-gray-400 hidden sm:inline">Déjà inscrit ?</span>
+            <Link
+              to="/login"
+              className="text-sm font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 hover:bg-emerald-500/20 transition-all rounded-xl px-4 py-2"
+            >
+              Se connecter
+            </Link>
+          </div>
         </div>
-    );
+      </header>
+
+      {/* Main Form Section */}
+      <div className="flex-1 flex items-center justify-center p-6 z-10 my-8">
+        <div className="bg-gray-900/60 border border-gray-800 rounded-2xl p-8 w-full max-w-md shadow-2xl backdrop-blur-xl">
+          <div className="text-center mb-6">
+            <h1 className="text-2xl font-bold text-white mb-2">Inscription</h1>
+            <p className="text-gray-400 text-sm">
+              Rejoignez StockSEN et commencez à gérer vos stocks
+            </p>
+          </div>
+
+          {error && (
+            <div className="mb-6 p-3.5 bg-red-500/10 border border-red-500/20 text-red-400 rounded-xl text-xs font-semibold flex items-center gap-2">
+              ⚠️ {error}
+            </div>
+          )}
+
+          <div className="space-y-4">
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block text-gray-400 text-xs font-bold uppercase tracking-wider mb-2">
+                  Nom
+                </label>
+                <input
+                  type="text"
+                  placeholder="Nom"
+                  value={nom}
+                  onChange={(e) => setNom(e.target.value)}
+                  className="w-full bg-gray-950 border border-gray-850 text-white placeholder-gray-600 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all"
+                />
+              </div>
+              <div>
+                <label className="block text-gray-400 text-xs font-bold uppercase tracking-wider mb-2">
+                  Prénom
+                </label>
+                <input
+                  type="text"
+                  placeholder="Prénom"
+                  value={prenom}
+                  onChange={(e) => setPrenom(e.target.value)}
+                  className="w-full bg-gray-950 border border-gray-850 text-white placeholder-gray-600 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all"
+                />
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-gray-400 text-xs font-bold uppercase tracking-wider mb-2">
+                Adresse Email
+              </label>
+              <input
+                type="email"
+                placeholder="nom@exemple.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="w-full bg-gray-950 border border-gray-850 text-white placeholder-gray-600 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all"
+              />
+            </div>
+
+            <div>
+              <label className="block text-gray-400 text-xs font-bold uppercase tracking-wider mb-2">
+                Mot de passe
+              </label>
+              <input
+                type="password"
+                placeholder="••••••••"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="w-full bg-gray-950 border border-gray-850 text-white placeholder-gray-600 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all"
+              />
+            </div>
+
+            <div>
+              <label className="block text-gray-400 text-xs font-bold uppercase tracking-wider mb-2">
+                Rôle
+              </label>
+              <select
+                value={role}
+                onChange={(e) => setRole(e.target.value)}
+                className="w-full bg-gray-950 border border-gray-850 text-white rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 transition-all appearance-none cursor-pointer"
+              >
+                <option value="" className="bg-gray-950">Sélectionner un rôle</option>
+                <option value="admin" className="bg-gray-950">Admin</option>
+                <option value="fournisseur" className="bg-gray-950">Fournisseur</option>
+                <option value="gestionnaire" className="bg-gray-950">Gestionnaire</option>
+              </select>
+            </div>
+
+            <button
+              disabled={loading}
+              onClick={handleRegister}
+              className="w-full bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-gray-950 font-bold rounded-xl py-3.5 text-sm transition-all shadow-lg shadow-emerald-500/10 hover:shadow-emerald-500/20 disabled:opacity-50 mt-6 active:scale-[0.98]"
+            >
+              {loading ? "Création du compte..." : "S'inscrire"}
+            </button>
+          </div>
+
+          <p className="text-gray-400 text-xs text-center mt-6">
+            Déjà un compte ?{" "}
+            <Link to="/login" className="text-emerald-400 hover:underline">
+              Se connecter
+            </Link>
+          </p>
+        </div>
+      </div>
+    </div>
+  );
 }

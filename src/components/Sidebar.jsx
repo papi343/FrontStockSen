@@ -7,8 +7,8 @@ export default function Sidebar() {
         { path: "/mouvements", label: "Mouvements" },
     ];
     return (
-        <div className="bg-gray-900 border-r border-gray-800 h-screem w-56 flex flex-col p-4">
-            <h2 className="text-whote font-bold text-lg mb-6">StockSEN</h2>
+        <div className="bg-gray-900 border-r border-gray-800 h-screen w-56 flex flex-col p-4">
+            <h2 className="text-white font-bold text-lg mb-6">StockSEN</h2>
             <div className=" flex flex-col gap-2">
                 {links.map((link) => (
                     <NavLink key={link.path} to={link.path}
